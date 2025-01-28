@@ -5,26 +5,28 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/f/flo/flo-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/f/flo/flo-{{ version }}.tar.gz
   sha256: 3951ea1101852c98d5d2709fd4d26167827174212838e4764d8e1ff461334a4c
 
 build:
-  number: 1
+  number: 2
   noarch: python
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
 
 requirements:
-  build:
-    - python <3
+  host:
+    - python {{ python_min }}
     - pip
   run:
-    - python <3
+    - python >={{ python_min }},<3
     - pyyaml
     - jinja2
     - argcomplete
     - networkx
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - flo
     - flo.commands
